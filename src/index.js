@@ -1,9 +1,11 @@
 let isInitialized = false;
 let gaMeasurementId = undefined;
+let configOptions = undefined;
 
-const register = (gaMeasurementIdValue) => {
+const register = (gaMeasurementIdValue, configOptionsValue = { 'anonymize_ip': true }) => {
   throwIfInvalidGAMeasurementId(gaMeasurementIdValue);
   gaMeasurementId = gaMeasurementIdValue;
+  configOptions = configOptionsValue;
 };
 
 const throwIfInvalidGAMeasurementId = (value) => {
@@ -43,12 +45,12 @@ const initGTag = () => {
 
 const getGtagAPI = () => {
   window.dataLayer = window.dataLayer || [];
-  return function(){dataLayer.push(arguments);};
+  return function () { dataLayer.push(arguments); };
 };
 
 const setInitialValuesToGtag = (gtag) => {
   gtag('js', new Date());
-  gtag('config', gaMeasurementId, {'anonymize_ip': true});
+  gtag('config', gaMeasurementId, configOptions);
 };
 
 export {
